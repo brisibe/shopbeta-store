@@ -1,25 +1,74 @@
-import logo from './logo.svg';
-import './App.css';
+import { Switch, Redirect } from "react-router-dom";
+import Login from "./views/Login";
+import Register from "./views/Register";
+import Home from "./views/Home";
+import ResetPassword from "./views/ResetPassword";
+import SearchPage from "./views/SearchPage";
+import Category from "./views/Category";
+import { RouteWithLayout } from "./components/RouteWithLayout/RouteWithLayout";
+import Profile from "./views/Profile";
+import SellerProfile from "./views/SellerProfile";
+import SellerRegistrations from "./views/SellerRegistrations";
+import CartPage from "./views/CartPage";
+import { Checkout } from "./views/Checkout";
+import ProductPage from "./views/ProductPage";
+import { Profiler } from "react";
+import { connect } from "react-redux";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Profiler id="app">
+      <Switch>
+        <RouteWithLayout path="/" withSidebar={true} exact>
+          <Home />
+        </RouteWithLayout>
+
+        <RouteWithLayout path="/search" withSidebar={true}>
+          <SearchPage />
+        </RouteWithLayout>
+
+        <RouteWithLayout path="/category/:name" withSidebar={true}>
+          <Category />
+        </RouteWithLayout>
+
+        <RouteWithLayout path="/login" withSidebar={false}>
+          <Login />
+        </RouteWithLayout>
+
+        <RouteWithLayout path="/register" exact withSidebar={false}>
+          <Register />
+        </RouteWithLayout>
+
+        <Redirect from="/logout" to="/" />
+
+        <RouteWithLayout path="/reset" withSidebar={false}>
+          <ResetPassword />
+        </RouteWithLayout>
+        <RouteWithLayout path="/customer" withSidebar={false}>
+          <Profile />
+        </RouteWithLayout>
+        <RouteWithLayout path="/seller" withSidebar={false}>
+          <SellerProfile />
+        </RouteWithLayout>
+        <RouteWithLayout path="/register/seller" withSidebar={false} exact>
+          <SellerRegistrations />
+        </RouteWithLayout>
+        <RouteWithLayout path="/cart" withSidebar={false}>
+          <CartPage />
+        </RouteWithLayout>
+        <RouteWithLayout path="/checkout" withSidebar={false}>
+          <Checkout />
+        </RouteWithLayout>
+        <RouteWithLayout path="/:productName" withSidebar={false}>
+          <ProductPage />
+        </RouteWithLayout>
+      </Switch>
+    </Profiler>
   );
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  isLoggedIn: state.auth.isLoggedIn,
+});
+
+export default connect(mapStateToProps)(App);
