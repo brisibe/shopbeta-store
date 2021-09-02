@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Box, Flex, Grid, Stack, Text } from "@chakra-ui/layout";
 import { Search } from "../components/Search/Search";
 import { Carousel } from "../components/Carousel/Carousel";
@@ -10,20 +10,13 @@ import { connect } from "react-redux";
 import { getAllProducts } from "../actions/products";
 
 const Home = ({ getAllProducts, products = [] }) => {
-  const [prod, setProd] = useState(products);
-
   useEffect(() => {
-    const prods = getAllProducts();
-
-    setProd(prods);
+    getAllProducts();
   }, [getAllProducts]);
 
   return (
     <Box w="100%" h="auto" pt="0" mt={["0", "0"]}>
       <Search display={{ md: "none" }} mt="4" />
-      {/* <Link to={"/search"}>
-        <Button>SEarch</Button>
-      </Link> */}
 
       <Box
         w="100%"
@@ -37,7 +30,6 @@ const Home = ({ getAllProducts, products = [] }) => {
 
       <Box
         w="100%"
-        // h={["64px", "120px", "150px"]}
         h="auto"
         py="4"
         mt="6"
@@ -119,7 +111,10 @@ const Home = ({ getAllProducts, products = [] }) => {
       </Box>
 
       <Box mt="6">
-        <Text fontWeight="medium">Top Deals</Text>
+        <Text fontWeight="medium" mb="3">
+          Top Deals
+        </Text>
+
         <Grid
           w="100%"
           h="auto"
